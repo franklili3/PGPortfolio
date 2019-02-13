@@ -7,14 +7,14 @@ import logging
 import json
 import numpy as np
 import datetime
-from pgportfolio.tools.indicator import max_drawdown, sharpe, positive_count, negative_count, moving_accumulate
+from pgportfolio.tools.indicator import max_drawdown,annual_sharpe, annual_return, positive_count, negative_count, moving_accumulate
 from pgportfolio.tools.configprocess import parse_time, check_input_same
 from pgportfolio.tools.shortcut import execute_backtest
 
 # the dictionary of name of indicators mapping to the function of related indicators
 # input is portfolio changes
 INDICATORS = {"portfolio value": np.prod,
-              "sharpe ratio": sharpe,
+              "annual sharpe ratio": annual_sharpe,
               "max drawdown": max_drawdown,
               "positive periods": positive_count,
               "negative periods": negative_count,
@@ -22,7 +22,7 @@ INDICATORS = {"portfolio value": np.prod,
               "negative day": lambda pcs: negative_count(moving_accumulate(pcs, 48)),
               "postive week": lambda pcs: positive_count(moving_accumulate(pcs, 336)),
               "negative week": lambda pcs: negative_count(moving_accumulate(pcs, 336)),
-              "average": np.mean}
+              "annual return": annual_return}
 
 NAMES = {"best": "Best Stock (Benchmark)",
          "crp": "UCRP (Benchmark)",
