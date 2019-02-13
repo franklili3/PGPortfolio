@@ -22,15 +22,19 @@ def max_drawdown(pc_array):
             drawdown_list.append(1.0 - portfolio_values[i] / max_benefit)
     return max(drawdown_list)
 
-
-def sharpe(pc_array):
+def annual_sharpe(pc_array):
     """calculate sharpe ratio with the portfolio changes
     @:param pc_array: all the portfolio changes during a trading process
-    @:return: sharpe ratio
+    @:return: annual sharpe ratio
     """
-    pc_array = pc_array-1.0
-    return np.mean(pc_array)/np.std(pc_array)
+    return (stats.gmean(pc_array)-1)/np.std(pc_array)*((365*24*2)**0.5)
 
+def annual_return(pc_array):
+    """calculate annual return with the portfolio changes
+    @:param pc_array: all the portfolio changes during a trading process
+    @:return: annual return
+    """
+    return (stats.gmean(pc_array)-1)*((365*24*2)**0.5)
 
 def moving_accumulate(pc_array, n=48):
     acc = np.cumprod(pc_array)
